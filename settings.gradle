@@ -1,0 +1,3 @@
+rootProject.name = 'krand'
+include ':krand-core'
+include ':krand-processor'
