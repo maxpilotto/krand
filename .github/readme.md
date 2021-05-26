@@ -19,7 +19,7 @@ allprojects {
 // Module's build.gradle
 
 dependencies {
-    implementation 'com.github.maxpilotto:krand'
+    implementation 'com.github.maxpilotto:krand:version'
 }
 ```
 
