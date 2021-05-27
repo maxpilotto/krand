@@ -16,12 +16,13 @@ abstract class BaseGenerator<R>(
     private val globalScope: ScriptableObject
 
     init {
-        val chancejs = Resources.load("/chance.js").reader()
+        val chanceJs = Resources.load("/chance.js").reader()
+
         context = Context.enter()
         globalScope = context.initSafeStandardObjects()
         context.optimizationLevel = -1
         context.evaluateString(globalScope, "exports = {}", "index", 1, null)
-        context.evaluateReader(globalScope, chancejs, "index", 1, null)
+        context.evaluateReader(globalScope, chanceJs, "index", 1, null)
     }
 
     protected fun javaify(value: Any?): Any? {

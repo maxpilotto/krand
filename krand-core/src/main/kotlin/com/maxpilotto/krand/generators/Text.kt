@@ -4,7 +4,6 @@ import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("letter", String::class)
 interface _LetterGenerator {
-    //TODO: JvmOverload
     fun gen(
         casing: String = "lower"    //TODO: Enum
     )
@@ -20,7 +19,7 @@ interface _ParagraphGenerator {
 @Generator("sentence", String::class)
 interface _SentenceGenerator {
     fun gen(
-        words: Int = 15
+        words: Int = 15 //TODO: Default parameters can't be used with the annotation processor
     )
 }
 

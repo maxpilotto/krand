@@ -7,21 +7,26 @@ class Pick {
         private val generator = IntegerGenerator()  //TODO: Maybe this is not needed
 
         @JvmOverloads
-        fun <T> weightedSet(items: Array<T>, weights: Iterable<Int>, count: Int, seed: Any? = null): Set<T> {
-            return weightedSet(items.toList(), weights, count, seed)
+        fun <T> weighted(items: Array<T>, weights: Iterable<Int>, count: Int, seed: Any? = null): List<T> {
+            return weighted(items.toList(), weights, count, seed)
         }
 
         @JvmOverloads
-        fun <T> weightedSet(items: Map<T, Int>, count: Int, seed: Any? = null): Set<T> {
-            return weightedSet(items.keys, items.values, count, seed)
+        fun <T> weighted(items: Map<T, Int>, count: Int, seed: Any? = null): List<T> {
+            return weighted(items.keys, items.values, count, seed)
         }
 
         @JvmOverloads
-        fun <T> weightedSet(items: Iterable<T>, weights: Iterable<Int>, count: Int, seed: Any? = null): Set<T> {
-            return mutableSetOf<T>().apply {
-                for (i in 0 until count) {
-                    add(weighted(items, weights, seed))
-                }
+        fun <T> weighted(items: Iterable<T>, weights: Iterable<Int>, count: Int, seed: Any? = null): List<T> {
+            return List(count) {
+                weighted(items, weights, seed)
+            }
+        }
+
+        @JvmOverloads
+        inline fun <reified T> weighted(weights: Iterable<Int>, count: Int, seed: Any? = null): List<T> {
+            return List(count) {
+                weighted(weights, seed)
             }
         }
 
@@ -66,6 +71,13 @@ class Pick {
         }
 
         @JvmOverloads
+        inline fun <reified T> weighted(weights: Iterable<Int>, seed: Any? = null): T {
+            val values = T::class.java.enumConstants
+
+            return weighted(values, weights, seed)
+        }
+
+        @JvmOverloads
         fun <T> one(iterable: Iterable<T>, seed: Any? = null): T {
             val generator = if (seed != null) IntegerGenerator(seed) else generator
 
@@ -88,29 +100,23 @@ class Pick {
         }
 
         @JvmOverloads
-        fun <T> set(iterable: Iterable<T>, count: Int, seed: Any? = null): Set<T> {
-            return mutableSetOf<T>().apply {
-                for (i in 0 until count) {
-                    add(one(iterable, seed))
-                }
+        fun <T> many(iterable: Iterable<T>, count: Int, seed: Any? = null): List<T> {
+            return List(count) {
+                one(iterable, seed)
             }
         }
 
         @JvmOverloads
-        fun <T> set(items: Array<T>, count: Int, seed: Any? = null): Set<T> {
-            return mutableSetOf<T>().apply {
-                for (i in 0 until count) {
-                    add(one(items, seed))
-                }
+        fun <T> many(items: Array<T>, count: Int, seed: Any? = null): List<T> {
+            return List(count) {
+                one(items, seed)
             }
         }
 
         @JvmOverloads
-        inline fun <reified T> set(count: Int, seed: Any? = null): Set<T> {
-            return mutableSetOf<T>().apply {
-                for (i in 0 until count) {
-                    add(one(seed))
-                }
+        inline fun <reified T> many(count: Int, seed: Any? = null): List<T> {
+            return List(count) {
+                one(seed)
             }
         }
     }

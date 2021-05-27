@@ -55,16 +55,16 @@ CoinGenerator("my-seed").gen() == CoinGenerator("my-seed").gen()    // True
 
 ## Pickers
 
-You can pick a single value or set from a List or Array either using the `Pick` class or the provided extension methods
+You can pick a single value or a list of values from a List/Array by using the `Pick` class or the provided extension methods
 
 ```kotlin
 val items = listOf("Dog", "Cat", "Goat", "Fox")
 val weights = listOf(50, 50, 5, 10)
 
-Pick.one(items)       // items.pickOne()  
-Pick.set(items, 2)    // items.pickSet(2)
+Pick.one(items)        // items.pickOne()  
+Pick.many(items, 2)    // items.pickMany(2)
 Pick.weighted(items, weights)         // items.weighted(weights)
-Pick.weightedSet(items, weights, 2)   // items.weighted(weights, 2)
+Pick.weighted(items, weights, 2)      // items.weighted(weights, 2)
 ```
 
 ## Custom generator
