@@ -63,7 +63,7 @@ abstract class BaseGenerator<R>(
     }
 
     //TODO: Replace all Arrays with Lists ?
-    protected fun gen(name: String, args: Array<Any>, optionalArgs: Map<String, Any?>): R {
+    protected fun one(name: String, args: Array<Any>, optionalArgs: Map<String, Any?>): R {
         val args = args.joinToString(",", transform = { stringify(it) })
         val optionalArgs = optionalArgs.filter { it.value != null }
             .map { "${it.key}: ${stringify(it.value)}" }
@@ -86,13 +86,31 @@ abstract class BaseGenerator<R>(
         }
     }
 
-    fun gen(args: Array<Any>, optionalArgs: Map<String, Any?>): R {
-        return gen(name, args, optionalArgs)
+    protected fun one(args: Array<Any>, optionalArgs: Map<String, Any?>): R {
+        return one(name, args, optionalArgs)
     }
 
-    fun gen(optionalArgs: Map<String, Any?>): R {
-        return gen(name, arrayOf(), optionalArgs)
+    protected fun one(optionalArgs: Map<String, Any?>): R {
+        return one(name, arrayOf(), optionalArgs)
     }
 
-    //TODO: Methods for single and many items
+    protected fun many(optionalArgs: Map<String, Any?>, count: Int): List<R> {
+        return List(count) {
+            one(optionalArgs)
+        }
+    }
+
+    protected fun many(args: Array<Any>, optionalArgs: Map<String, Any?>, count: Int): List<R> {
+        return List(count) {
+            one(args, optionalArgs)
+        }
+    }
+
+    protected fun string(args: Array<Any>, optionalArgs: Map<String, Any?>): String {
+        return one(args, optionalArgs).toString()
+    }
+
+    protected fun string(optionalArgs: Map<String, Any?>): String {
+        return one(optionalArgs).toString()
+    }
 }

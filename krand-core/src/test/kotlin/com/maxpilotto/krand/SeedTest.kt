@@ -9,8 +9,8 @@ class SeedTest {
     fun integer() {
         val seed = "Seed Test"
 
-        IntegerGenerator(seed).gen().also {
-            assert(IntegerGenerator(seed).gen() == it)
+        IntegerGenerator(seed).one().also {
+            assert(IntegerGenerator(seed).one() == it)
         }
     }
 }

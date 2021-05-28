@@ -52,7 +52,7 @@ class Pick {
                 throw Exception("The sum of all weights must be higher than 0")
             }
 
-            val selected = (if (seed != null) IntegerGenerator(seed) else generator).gen(0, sum)
+            val selected = (if (seed != null) IntegerGenerator(seed) else generator).one(0, sum)
             var total = 0
 
             for (i in 0 until weights.count()) {
@@ -81,14 +81,14 @@ class Pick {
         fun <T> one(iterable: Iterable<T>, seed: Any? = null): T {
             val generator = if (seed != null) IntegerGenerator(seed) else generator
 
-            return iterable.elementAt(generator.gen(0, iterable.count() - 1))
+            return iterable.elementAt(generator.one(0, iterable.count() - 1))
         }
 
         @JvmOverloads
         fun <T> one(items: Array<T>, seed: Any? = null): T {
             val generator = if (seed != null) IntegerGenerator(seed) else generator
 
-            return items[generator.gen(0, items.size - 1)]
+            return items[generator.one(0, items.size - 1)]
         }
 
         @JvmOverloads
@@ -96,7 +96,7 @@ class Pick {
             val generator = IntegerGenerator(seed)
             val values = T::class.java.enumConstants
 
-            return values[generator.gen(0, values.size - 1)]
+            return values[generator.one(0, values.size - 1)]
         }
 
         @JvmOverloads
