@@ -5,7 +5,6 @@ import com.maxpilotto.krand.processor.extensions.asKotlinTypeName
 import com.maxpilotto.krand.processor.extensions.asNullableTypeName
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import javax.lang.model.element.Name
 import javax.lang.model.element.VariableElement
 
 internal class GeneratorClassBuilder(
@@ -42,13 +41,14 @@ internal class GeneratorClassBuilder(
         _class.addFunction(funSpec)
     }
 
-    fun addFunction(name: Name, parameters: List<VariableElement>, returnType: TypeName) = apply {
+    fun addFunction(name: String, parameters: List<VariableElement>, returnType: TypeName, hasCount: Boolean) = apply {
         if (parameters.isNotEmpty()) {
-            val func = FunSpec.builder(name.toString())
+            val func = FunSpec.builder(name)
                 .returns(returnType)
-            var body = "return ${KRandProcessor.FUNCTION_GENERATE}("
+            var body = "return $name("
+            val count = if (hasCount) ",count" else ""
 
-            body += parameters.joinToString(",", "mapOf(", ")", transform = {
+            body += parameters.joinToString(",", "mapOf(", ")$count", transform = {
                 "\"${it.simpleName}\" to ${it.simpleName}"
             })
             parameters.forEach { p ->
@@ -59,6 +59,10 @@ internal class GeneratorClassBuilder(
                 func.addParameter(param)
             }
             body += ")"
+
+            if (hasCount) {
+                func.addParameter("count", Int::class)
+            }
 
             _class.addFunction(
                 func.addCode(body).build()

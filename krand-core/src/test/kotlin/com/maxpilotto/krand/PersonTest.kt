@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class PersonTest {
     @Test
     fun gender(){
-        val g = GenderGenerator().gen(arrayOf(
+        val g = GenderGenerator().one(arrayOf(
             "Male_FTM", "Female_MFT", "Non-Binary"
         ))
 

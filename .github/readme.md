@@ -30,15 +30,15 @@ All generators available with ChanceJS are also available with KRand
 You can check all generators and the full docs at [ChanceJS's homepage](https://chancejs.com/)
 
 ```kotlin
-BoolGenerator().gen(likelihood = 50)            // true
-IntegerGenerator().gen(0, 100)                  // 30
-CreditCardNumberGenerator().gen("Mastercard")   // 5128243899559746
-StateGenerator().gen(full = true)               // Nevada
-IPV6Generator().gen()                           // 78c6:5c6f:500a:4d73:b4f3:f85c:08fa:5574
-CoinGenerator().gen()                           // tails
-D8Generator().gen()                             // 8
-DiceGenerator("8d3").gen()                      // 3, 3, 2, 1, 1, 1, 3, 2        
-GenderGenerator().gen(arrayOf(                  // Male_FTM
+BoolGenerator().one(likelihood = 50)            // true
+IntegerGenerator().one(0, 100)                  // 30
+CreditCardNumberGenerator().one("Mastercard")   // 5128243899559746
+StateGenerator().one(full = true)               // Nevada
+IPV6Generator().one()                           // 78c6:5c6f:500a:4d73:b4f3:f85c:08fa:5574
+CoinGenerator().one()                           // tails
+D8Generator().one()                             // 8
+DiceGenerator("8d3").one()                      // 3, 3, 2, 1, 1, 1, 3, 2        
+GenderGenerator().one(arrayOf(                  // Male_FTM
     "Male_FTM", "Female_MTF", "Non-Binary"
 ))
 ```
@@ -48,9 +48,9 @@ GenderGenerator().gen(arrayOf(                  // Male_FTM
 All generators take an optional seed, that is provided in the constructor
 
 ```kotlin
-IntegerGenerator("my-seed").gen()   //2147483647
+IntegerGenerator("my-seed").one()   //2147483647
 
-CoinGenerator("my-seed").gen() == CoinGenerator("my-seed").gen()    // True
+CoinGenerator("my-seed").one() == CoinGenerator("my-seed").one()    // True
 ```
 
 ## Pickers
@@ -78,7 +78,10 @@ You can create your own custom generator by extending the class BaseGenerator an
 ```kotlin
 // Odd/Even number generator
 class CustomGenerator(seed: Any? = null) : BaseGenerator<Int>("integer", seed) {
-    fun gen(isOdd: Boolean): Int {
+    fun string(isOdd: Boolean) = one(isOdd).toString()
+    fun many(isOdd: Boolean, count: Int) = List(count) { one(isOdd) }
+    
+    fun one(isOdd: Boolean): Int {
         val number = gen(
             //Check ChanceJS documentation to see available parameters
             mapOf(

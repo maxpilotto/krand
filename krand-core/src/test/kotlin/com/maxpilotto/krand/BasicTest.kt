@@ -14,9 +14,11 @@ class BasicTest {
         val range = 0 until 30
 
         for (i in range) {
-            val n = EvenNumberGenerator().gen(0, 10)
+            val gen = EvenNumberGenerator()
+            val n = gen.one(0, 10)
 
             assert(n in range && n % 2 == 0)
+            assert(gen.many(count = 10).all { it % 2 == 0 })
         }
     }
 
@@ -25,29 +27,31 @@ class BasicTest {
         val range = 0 until 30
 
         for (i in range) {
-            val n = OddNumberGenerator().gen(0, 10)
+            val gen = OddNumberGenerator()
+            val n = gen.one(0, 10)
 
             assert(n in range && n % 2 != 0)
+            assert(gen.many(count = 10).all { it % 2 != 0 })
         }
     }
 
     @Test
     fun bool() {
-        assert(BoolGenerator().gen(likelihood = 100))
+        assert(BoolGenerator().one(likelihood = 100))
     }
 
     @Test
     fun float() {
-        assert(FloatGenerator().gen(0, 100) in 0F..100F)
+        assert(FloatGenerator().one(0, 100) in 0F..100F)
     }
 
     @Test
     fun integer() {
-        assert(IntegerGenerator().gen(0, 100) in 0..100)
+        assert(IntegerGenerator().one(0, 100) in 0..100)
     }
 
     @Test
     fun natural() {
-        assert(NaturalGenerator().gen(0, 1, arrayOf(1)) == 0)
+        assert(NaturalGenerator().one(0, 1, arrayOf(1)) == 0)
     }
 }
