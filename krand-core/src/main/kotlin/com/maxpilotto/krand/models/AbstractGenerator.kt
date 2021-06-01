@@ -39,7 +39,7 @@ abstract class AbstractGenerator<R>(
      * The resulting function call will be `Chance(seed).functionName({ functionOptionalArgs })`
      */
     protected inline fun <reified R> execute(functionName: String): R {
-        return execute(functionName, arrayOf(), mapOf())
+        return execute(functionName, listOf(), mapOf())
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class AbstractGenerator<R>(
      * The resulting function call will be `Chance(seed).functionName({ functionOptionalArgs })`
      */
     protected inline fun <reified R> execute(functionName: String, functionOptionalArgs: Map<String, Any?>): R {
-        return execute(functionName, arrayOf(), functionOptionalArgs)
+        return execute(functionName, listOf(), functionOptionalArgs)
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class AbstractGenerator<R>(
      *
      * The resulting function call will be `Chance(seed).functionName(functionArgs, { functionOptionalArgs })`
      */
-    protected inline fun <reified R> execute(functionName: String, functionArgs: Array<Any>, functionOptionalArgs: Map<String, Any?>): R {
+    protected inline fun <reified R> execute(functionName: String, functionArgs: List<Any>, functionOptionalArgs: Map<String, Any?>): R {
         val args = functionArgs.joinToString(",", transform = { stringify(it) })
         val optionalArgs = functionOptionalArgs.filter { it.value != null }
             .map { "${it.key}: ${stringify(it.value)}" }

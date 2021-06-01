@@ -12,7 +12,7 @@ class DiceGenerator(seed: Any? = null) : AbstractGenerator<Iterable<Int>>(seed) 
 
     override fun one(): Iterable<Int> = execute(
         "rpg",
-        arrayOf(
+        listOf(
             "${rolls}d$max"
         ),
         mapOf(
