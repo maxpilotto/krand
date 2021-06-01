@@ -5,7 +5,7 @@ import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("cc", String::class)
 interface _CreditCardNumberGenerator {
-    val type: String   //TODO: Enum
+    val type: String
 }
 
 @Generator("cc_type", String::class)

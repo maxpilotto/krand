@@ -37,7 +37,8 @@ IntegerGenerator().min(0).max(100).one()        // 30
 StateGenerator().full(true).one()               // Nevada
 IPV6Generator().one()                           // 78c6:5c6f:500a:4d73:b4f3:f85c:08fa:5574
 CoinGenerator().one()                           // tails
-DiceGenerator().rolls(4).max(4).one()           // 3, 3, 2, 1, 1, 1, 3, 2        
+DiceGenerator().rolls(4).max(4).one()           // 3, 3, 2, 1, 1, 1, 3, 2    
+
 GenderGenerator().extraGenders(
     arrayOf(
         "Male (FTM)", 
@@ -45,6 +46,10 @@ GenderGenerator().extraGenders(
         "Non Binary"
     )
 ).one()                                         // Male (FTM)
+
+CreditCardNumberGenerator()
+    .type(CardType.Mastercard)
+    .one()                                      // 5114582008438961
 ```
 
 ## Seeding

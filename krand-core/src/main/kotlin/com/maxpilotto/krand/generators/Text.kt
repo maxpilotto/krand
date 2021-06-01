@@ -4,7 +4,7 @@ import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("letter", String::class)
 interface _LetterGenerator {
-    val casing: String   //TODO: Enum
+    val casing: String
 }
 
 @Generator("paragraph", String::class)
