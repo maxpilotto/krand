@@ -7,9 +7,9 @@ class PersonTest {
     @Test
     fun gender() {
         val g = GenderGenerator().extraGenders(
-            arrayOf(
-                "Male (FTM)", "Female (MTF)", "Non Binary"
-            )
+            "Male (FTM)",
+            "Female (MTF)",
+            "Non Binary"
         ).one()
 
         println(g)
