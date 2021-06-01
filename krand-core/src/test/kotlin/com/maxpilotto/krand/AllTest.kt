@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test
 class AllTest {
     @Test
     fun one() {
-        // Auto generated
-        println(FalsyGenerator().one())
+//        println(FalsyGenerator().one())
         println(AMPMGenerator().one())
         println(AddressGenerator().one())
         println(AgeGenerator().one())
@@ -55,7 +54,7 @@ class AllTest {
         println(EuroGenerator().one())
         println(FacebookIDGenerator().one())
         println(FirstnameGenerator().one())
-        println(FloatGenerator().one())
+        println(DecimalGenerator().one())
         println(GUIDGenerator().one())
         println(GenderGenerator().one())
         println(GeohashGenerator().one())
@@ -107,9 +106,7 @@ class AllTest {
         println(WordGenerator().one())
         println(YearGenerator().one())
         println(ZipCodeGenerator().one())
-
-        // Custom
-        println(DiceGenerator("12d6").one())
+        println(DiceGenerator().rolls(2).max(6).one())
         println(EvenNumberGenerator().one())
         println(OddNumberGenerator().one())
     }

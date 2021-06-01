@@ -4,20 +4,16 @@ import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("avatar", String::class)
 interface _AvatarGenerator {
-    fun gen(
-        protocol: String = "https",
-        fileExtension: String = "jpg",
-        email: String = ""
-    )
+    val protocol: String
+    val fileExtension: String
+    val email: String
 }
 
 @Generator("color", String::class)
 interface _ColorGenerator {
-    fun gen(
-        format: String = "hex",
-        grayscale: Boolean = true,
-        casing: String = "upper"
-    )
+    val format: String
+    val grayscale: Boolean
+    val casing: String
 }
 
 @Generator("company", String::class)
@@ -25,16 +21,12 @@ interface _CompanyGenerator
 
 @Generator("domain", String::class)
 interface _DomainGenerator {
-    fun gen(
-        tld: String = "com"
-    )
+    val tld: String
 }
 
 @Generator("email", String::class)
 interface _EmailGenerator {
-    fun gen(
-        domain: String = ""
-    )
+    val domain: String
 }
 
 @Generator("fbid", String::class)
@@ -57,9 +49,7 @@ interface _KloutScoreGenerator
 
 @Generator("profession", String::class)
 interface _ProfessionGenerator {
-    fun gen(
-        rank: Boolean = true
-    )
+    val rank: Boolean
 }
 
 @Generator("tld", String::class)
@@ -70,11 +60,9 @@ interface _TwitterGenerator
 
 @Generator("url", String::class)
 interface _URLGenerator {
-    fun gen(
-        protocol: String = "",
-        domain: String = "",
-        prefix: String = "",
-        path: String = "",
-        extensions: Array<String> = arrayOf()
-    )
+    val protocol: String
+    val domain: String
+    val prefix: String
+    val path: String
+    val extensions: Array<String>
 }

@@ -44,6 +44,7 @@ internal fun TypeMirror.asKotlinTypeName(): TypeName {
             "java.lang.Float" -> ClassName.bestGuess("kotlin.Float")
             "java.lang.Double" -> ClassName.bestGuess("kotlin.Double")
             "java.lang.Boolean" -> ClassName.bestGuess("kotlin.Boolean")
+            "java.lang.Object" ->  ClassName.bestGuess("kotlin.Any")
 
             else -> typeName
         }

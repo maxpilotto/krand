@@ -4,42 +4,35 @@ import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("bool", Boolean::class)
 interface _BoolGenerator {
-    fun gen(likelihood: Int = 50)
+    val likelihood: Int
 }
 
-@Generator("falsy", Any::class)
-interface _FalsyGenerator
+//FIXME: The AbstractGenerator cannot and shouldn't generate nullable values but this generator may return null
+//@Generator("falsy", Any::class)
+//interface _FalsyGenerator
 
-@Generator("floating", Float::class)
-interface _FloatGenerator {
-    fun gen(
-        min: Int = 0,
-        max: Int = 100,
-        digits: Int = 8
-    )
+@Generator("floating", Double::class)
+interface _DecimalGenerator {
+    val min: Int
+    val max: Int
+    val digits: Int
 }
 
 @Generator("integer", Int::class)
 interface _IntegerGenerator {
-    fun gen(
-        min: Int = Int.MIN_VALUE,
-        max: Int = Int.MAX_VALUE
-    )
+    val min: Int
+    val max: Int
 }
 
 @Generator("prime", Int::class)
 interface _PrimeGenerator {
-    fun gen(
-        min: Int = 0,
-        max: Int = 100
-    )
+    val min: Int
+    val max: Int
 }
 
 @Generator("natural", Int::class)
 interface _NaturalGenerator {
-    fun gen(
-        min: Int = 0,
-        max: Int = Int.MAX_VALUE,
-        exclude: Array<Int> = arrayOf()
-    )
+    val min: Int
+    val max: Int
+    val exclude: Array<Int>
 }
