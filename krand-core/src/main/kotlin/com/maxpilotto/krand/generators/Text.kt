@@ -14,7 +14,7 @@ interface _ParagraphGenerator {
 
 @Generator("sentence", String::class)
 interface _SentenceGenerator {
-    val words: Int  //TODO: Default parameters can't be used with the annotation processor
+    val words: Int
 }
 
 @Generator("string", String::class)

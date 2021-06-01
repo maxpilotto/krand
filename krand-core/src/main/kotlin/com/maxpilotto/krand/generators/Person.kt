@@ -32,8 +32,8 @@ interface _FirstnameGenerator {
 }
 
 @Generator("gender", String::class)
-interface _GenderGenerator {    //TODO: Array or List should be vararg types
-    val extraGenders: Array<String> //TODO: Replace with a list
+interface _GenderGenerator {
+    val extraGenders: Array<String>
 }
 
 @Generator("last", String::class)

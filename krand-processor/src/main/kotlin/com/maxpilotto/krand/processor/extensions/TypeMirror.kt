@@ -1,5 +1,6 @@
 package com.maxpilotto.krand.processor.extensions
 
+import com.maxpilotto.krand.processor.KRandProcessor
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import javax.lang.model.type.ArrayType
@@ -24,29 +25,30 @@ internal fun TypeMirror.getClass(): KClass<*> {
 }
 
 internal fun TypeMirror.asKotlinTypeName(): TypeName {
-    val typeName = asTypeName()
+    val typeName = asTypeName().toString()
 
-    return when (kind) {
-        //TODO: Add support for lists too
-        TypeKind.ARRAY -> {
+    if (typeName.startsWith("java.util.List")) {
+        throw Exception("${KRandProcessor::class} does not support List types")
+    }
+
+    return when {
+        typeName == "java.lang.String" -> ClassName.bestGuess("kotlin.String")
+        typeName == "java.lang.Character" -> ClassName.bestGuess("kotlin.Char")
+        typeName == "java.lang.Byte" -> ClassName.bestGuess("kotlin.Byte")
+        typeName == "java.lang.Short" -> ClassName.bestGuess("kotlin.Short")
+        typeName == "java.lang.Integer" -> ClassName.bestGuess("kotlin.Int")
+        typeName == "java.lang.Long" -> ClassName.bestGuess("kotlin.Long")
+        typeName == "java.lang.Float" -> ClassName.bestGuess("kotlin.Float")
+        typeName == "java.lang.Double" -> ClassName.bestGuess("kotlin.Double")
+        typeName == "java.lang.Boolean" -> ClassName.bestGuess("kotlin.Boolean")
+        typeName == "java.lang.Object" ->  ClassName.bestGuess("kotlin.Any")
+
+        kind == TypeKind.ARRAY -> {
             val componentType = (this as ArrayType).componentType.getClass()
 
             Array::class.parameterizedBy(componentType)
         }
 
-        else -> when (typeName.toString()) {
-            "java.lang.String" -> ClassName.bestGuess("kotlin.String")
-            "java.lang.Character" -> ClassName.bestGuess("kotlin.Char")
-            "java.lang.Byte" -> ClassName.bestGuess("kotlin.Byte")
-            "java.lang.Short" -> ClassName.bestGuess("kotlin.Short")
-            "java.lang.Integer" -> ClassName.bestGuess("kotlin.Int")
-            "java.lang.Long" -> ClassName.bestGuess("kotlin.Long")
-            "java.lang.Float" -> ClassName.bestGuess("kotlin.Float")
-            "java.lang.Double" -> ClassName.bestGuess("kotlin.Double")
-            "java.lang.Boolean" -> ClassName.bestGuess("kotlin.Boolean")
-            "java.lang.Object" ->  ClassName.bestGuess("kotlin.Any")
-
-            else -> typeName
-        }
+        else -> asTypeName()
     }
 }
