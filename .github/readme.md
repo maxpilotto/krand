@@ -40,11 +40,9 @@ CoinGenerator().one()                           // tails
 DiceGenerator().rolls(4).max(4).one()           // 3, 3, 2, 1, 1, 1, 3, 2    
 
 GenderGenerator().extraGenders(
-    arrayOf(
-        "Male (FTM)", 
-        "Female (MTF)", 
-        "Non Binary"
-    )
+    "Male (FTM)", 
+    "Female (MTF)", 
+    "Non Binary"
 ).one()                                         // Male (FTM)
 
 CreditCardNumberGenerator()

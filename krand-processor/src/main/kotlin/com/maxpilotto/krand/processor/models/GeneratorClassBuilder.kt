@@ -6,6 +6,8 @@ import com.maxpilotto.krand.processor.extensions.asPropertyName
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import javax.lang.model.element.ExecutableElement
+import javax.lang.model.type.ArrayType
+import javax.lang.model.type.TypeKind
 
 internal class GeneratorClassBuilder(
     private val packageName: String,
@@ -36,15 +38,35 @@ internal class GeneratorClassBuilder(
         val propName = property.simpleName.asPropertyName()
         val propType = property.returnType.asKotlinTypeName()
         val propNullableType = propType.copy(true)
-        val prop = PropertySpec.builder(propName, propNullableType)
+        val prop = PropertySpec.builder(propName, propNullableType) //FIXME: Private setter
             .mutable(true)
             .initializer("null")
             .build()
-        val func = FunSpec.builder(propName)
-            .addParameter(propName, propType)
-            .addCode("return apply{ this.$propName = $propName }")
-            .returns(ClassName.bestGuess("$packageName.$className"))
-            .build()
+        val func: FunSpec
+
+        when (property.returnType.kind) {
+            TypeKind.ARRAY -> {
+                val componentType = (property.returnType as ArrayType).componentType
+                val param = ParameterSpec.builder(propName, componentType.asKotlinTypeName())
+                    .addModifiers(KModifier.VARARG)
+                    .build()
+                func = FunSpec.builder(propName)
+                    .addParameter(param)
+                    .addCode("return apply{ this.$propName = $propName.toTypedArray() }")
+                    .returns(ClassName.bestGuess("$packageName.$className"))
+                    .build()
+
+                file.addImport("com.maxpilotto.krand.extensions","toTypedArray")
+            }
+
+            else -> {
+                func = FunSpec.builder(propName)
+                    .addParameter(propName, propType)
+                    .addCode("return apply{ this.$propName = $propName }")
+                    .returns(ClassName.bestGuess("$packageName.$className"))
+                    .build()
+            }
+        }
 
         _class.addProperty(prop)
         _class.addFunction(func)

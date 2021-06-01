@@ -54,7 +54,7 @@ class BasicTest {
 
     @Test
     fun natural() {
-        assert(NaturalGenerator().min(0).max(1).exclude(arrayOf(1)).one() == 0)
-        assert(NaturalGenerator().min(0).max(1).exclude(arrayOf(1)).many(10).all { it == 0 })
+        assert(NaturalGenerator().min(0).max(1).exclude(1).one() == 0)
+        assert(NaturalGenerator().min(0).max(1).exclude(1).many(10).all { it == 0 })
     }
 }
