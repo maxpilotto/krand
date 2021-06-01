@@ -4,17 +4,13 @@ import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("address", String::class)
 interface _AddressGenerator {
-    fun gen(
-        shortSuffix: Boolean = true
-    )
+    val shortSuffix: Boolean
 }
 
 @Generator("altitude", Float::class)
 interface _AltitudeGenerator {
-    fun gen(
-        fixed: Int = 5,
-        max: Int = 8848
-    )
+    val fixed: Int
+    val max: Int
 }
 
 @Generator("areacode", String::class)
@@ -25,64 +21,48 @@ interface _CityGenerator
 
 @Generator("coordinates", String::class)
 interface _CoordinatesGenerator {
-    fun gen(
-        fixed: Int = 5
-    )
+    val fixed: Int
 }
 
 @Generator("country", String::class)
 interface _CountryGenerator {
-    fun gen(
-        full: Boolean = true
-    )
+    val full: Boolean
 }
 
 @Generator("depth", Float::class)
 interface _DepthGenerator {
-    fun gen(
-        fixed: Int = 5,
-        min: Int = -2550
-    )
+    val fixed: Int
+    val min: Int
 }
 
 @Generator("geohash", String::class)
 interface _GeohashGenerator {
-    fun gen(
-        length: Int = 7
-    )
+    val length: Int
 }
 
 @Generator("latitude", Float::class)
 interface _LatitudeGenerator {
-    fun gen(
-        fixed: Int = 5,
-        min: Float = -90F,
-        max: Float = 90F
-    )
+    val fixed: Int
+    val min: Float
+    val max: Float
 }
 
 @Generator("locale", String::class)
 interface _LocaleGenerator {
-    fun gen(
-        region: Boolean = true
-    )
+    val region: Boolean
 }
 
 @Generator("longitude", Float::class)
 interface _LongitudeGenerator {
-    fun gen(
-        fixed: Int = 5,
-        min: Float = -180F,
-        max: Float = 180F
-    )
+    val fixed: Int
+    val min: Float
+    val max: Float
 }
 
 @Generator("phone", String::class)
 interface _PhoneGenerator {
-    fun gen(
-        formatted: Boolean = false,
-        country: String = ""    //'us', 'uk', or 'fr'
-    )
+    val formatted: Boolean
+    val country: String    //'us', 'uk', or 'fr'
 }
 
 @Generator("postal", String::class)
@@ -93,33 +73,25 @@ interface _PostcodeGenerator
 
 @Generator("province", String::class)
 interface _ProvinceGenerator {
-    fun gen(
-        full: Boolean = true
-    )
+    val full: Boolean   //TODO: If a field is a boolean, the Builder's method should have the parameter with a default value
 }
 
 @Generator("state", String::class)
 interface _StateGenerator {
-    fun gen(
-        full: Boolean = true,
-        territories: Boolean = true,
-        armedForces: Boolean = true,
-        country: String = ""
-    )
+    val full: Boolean
+    val territories: Boolean
+    val armedForces: Boolean
+    val country: String
 }
 
 @Generator("street", String::class)
 interface _StreetGenerator {
-    fun gen(
-        country: String = "", //us, it
-        shortSuffix: Boolean = true,
-        syllables: Int = 8
-    )
+    val country: String //us, it
+    val shortSuffix: Boolean
+    val syllables: Int
 }
 
 @Generator("zip", String::class)
 interface _ZipCodeGenerator {
-    fun gen(
-        plusFour: Boolean = true
-    )
+    val plusFour: Boolean
 }

@@ -19,7 +19,7 @@ allprojects {
 // Module's build.gradle
 
 dependencies {
-    implementation 'com.github.maxpilotto:krand:version'
+    implementation 'com.github.maxpilotto:krand:$version'
 }
 ```
 
@@ -27,25 +27,29 @@ dependencies {
 
 All generators available with ChanceJS are also available with KRand
 
+All generators extend the base `AbstractGenerator` which has three methods available: `one`, `many` and `string`.
+
 You can check all generators and the full docs at [ChanceJS's homepage](https://chancejs.com/)
 
 ```kotlin
-BoolGenerator().one(likelihood = 50)            // true
-IntegerGenerator().one(0, 100)                  // 30
-CreditCardNumberGenerator().one("Mastercard")   // 5128243899559746
-StateGenerator().one(full = true)               // Nevada
+BoolGenerator().likelihood(50).one()            // true
+IntegerGenerator().min(0).max(100).one()        // 30
+StateGenerator().full(true).one()               // Nevada
 IPV6Generator().one()                           // 78c6:5c6f:500a:4d73:b4f3:f85c:08fa:5574
 CoinGenerator().one()                           // tails
-D8Generator().one()                             // 8
-DiceGenerator("8d3").one()                      // 3, 3, 2, 1, 1, 1, 3, 2        
-GenderGenerator().one(arrayOf(                  // Male_FTM
-    "Male_FTM", "Female_MTF", "Non-Binary"
-))
+DiceGenerator().rolls(4).max(4).one()           // 3, 3, 2, 1, 1, 1, 3, 2        
+GenderGenerator().extraGenders(
+    arrayOf(
+        "Male (FTM)", 
+        "Female (MTF)", 
+        "Non Binary"
+    )
+).one()                                         // Male (FTM)
 ```
 
 ## Seeding
 
-All generators take an optional seed, that is provided in the constructor
+All generators can take an optional seed parameter
 
 ```kotlin
 IntegerGenerator("my-seed").one()   //2147483647
@@ -55,7 +59,7 @@ CoinGenerator("my-seed").one() == CoinGenerator("my-seed").one()    // True
 
 ## Pickers
 
-You can pick a single value or a list of values from a List/Array by using the `Pick` class or the provided extension methods
+You can pick a single value or a list of values from a List/Array by using the `Pick` class or the Kotlin extension methods
 
 ```kotlin
 val items = listOf("Dog", "Cat", "Goat", "Fox")
@@ -69,32 +73,26 @@ Pick.weighted(items, weights, 2)      // items.weighted(weights, 2)
 
 ## Custom generator
 
-You can create your own custom generator by extending the class BaseGenerator and specifying:
-
-+ Return type of the generator
-+ Name of the base ChanceJS generator
-+ As many methods as you want but at least one (can be empty) is recommended
+You can create your own custom generator by extending the class `AbstractGenerator` and using any of the Chance JS generators
 
 ```kotlin
 // Odd/Even number generator
-class CustomGenerator(seed: Any? = null) : BaseGenerator<Int>("integer", seed) {
-    fun string(isOdd: Boolean) = one(isOdd).toString()
-    fun many(isOdd: Boolean, count: Int) = List(count) { one(isOdd) }
-    
-    fun one(isOdd: Boolean): Int {
-        val number = gen(
-            //Check ChanceJS documentation to see available parameters
-            mapOf(
-                "min" to 0,
-                "max" to 100
-            )
-        )
+class CustomGenerator : AbstractGenerator<Int>() {
+    var isOdd: Boolean = false
+        private set
 
-        if (isOdd) {
-            return if (n % 2 != 0) n else n - 1
+    override fun one(): Int {
+        val number = execute<Int>("integer")  // ChanceJS generator name
+
+        return if (isOdd) {
+            if (number % 2 != 0) number else number - 1
         } else {
-            return if (n % 2 == 0) n else n - 1
+            if (number % 2 == 0) number else number - 1
         }
+    }
+
+    fun isOdd(isOdd: Boolean) = apply {
+        this.isOdd = isOdd
     }
 }
 ```
@@ -147,7 +145,7 @@ Email
 Euro
 EvenNumber
 FacebookID
-Falsy
+//Falsy     //Doesn't work
 Firstname
 Float
 GUID
@@ -198,6 +196,7 @@ Twitter
 URL
 Weekday
 WindowsPhone7ANID
+//WindowsPhone8ANID2    //Doesn't work
 Word
 Year
 ZipCode

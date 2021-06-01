@@ -31,30 +31,22 @@ interface _D100Generator
 
 @Generator("guid", String::class)
 interface _GUIDGenerator {
-    fun gen(
-        version: Int = 5
-    )
+    val version: Int
 }
 
 @Generator("hash", String::class)
 interface _HashGenerator {
-    fun gen(
-        length: Int = 40,
-        casing: String = "lower"
-    )
+    val length: Int
+    val casing: String
 }
 
 @Generator("normal", Float::class)
 interface _NormalGenerator {
-    fun gen(
-        mean: Int = 0,
-        dev: Int = 1
-    )
+    val mean: Int
+    val dev: Int
 }
 
 @Generator("radio", String::class)
 interface _RadioCallSignGenerator {
-    fun gen(
-        side: String = "east"   //east, weat
-    )
+    val side: String   //east, weat
 }

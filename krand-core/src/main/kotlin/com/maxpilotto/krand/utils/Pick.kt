@@ -4,7 +4,12 @@ import com.maxpilotto.krand.generators.IntegerGenerator
 
 class Pick {
     companion object {
-        private val generator = IntegerGenerator()  //TODO: Maybe this is not needed
+        private val gen: (Any?, Int, Int) -> Int = { seed, min, max ->
+            IntegerGenerator(seed)
+                .min(min)
+                .max(max)
+                .one()
+        }
 
         @JvmOverloads
         fun <T> weighted(items: Array<T>, weights: Iterable<Int>, count: Int, seed: Any? = null): List<T> {
@@ -52,7 +57,7 @@ class Pick {
                 throw Exception("The sum of all weights must be higher than 0")
             }
 
-            val selected = (if (seed != null) IntegerGenerator(seed) else generator).one(0, sum)
+            val selected = gen(seed, 0, sum)
             var total = 0
 
             for (i in 0 until weights.count()) {
@@ -79,24 +84,22 @@ class Pick {
 
         @JvmOverloads
         fun <T> one(iterable: Iterable<T>, seed: Any? = null): T {
-            val generator = if (seed != null) IntegerGenerator(seed) else generator
-
-            return iterable.elementAt(generator.one(0, iterable.count() - 1))
+            return iterable.elementAt(gen(seed, 0, iterable.count() - 1))
         }
 
         @JvmOverloads
         fun <T> one(items: Array<T>, seed: Any? = null): T {
-            val generator = if (seed != null) IntegerGenerator(seed) else generator
-
-            return items[generator.one(0, items.size - 1)]
+            return items[gen(seed, 0, items.size - 1)]
         }
 
         @JvmOverloads
         inline fun <reified T> one(seed: Any? = null): T {
-            val generator = IntegerGenerator(seed)
             val values = T::class.java.enumConstants
+            val gen = IntegerGenerator(seed)
+                .min(0)
+                .max(values.size - 1)
 
-            return values[generator.one(0, values.size - 1)]
+            return values[gen.one()]
         }
 
         @JvmOverloads

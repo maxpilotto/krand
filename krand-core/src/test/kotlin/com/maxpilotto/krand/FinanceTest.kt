@@ -9,18 +9,18 @@ import java.util.*
 class FinanceTest {
     @Test
     fun cc() {
-        assert(CreditCardNumberGenerator().one("Mastercard").length == 16)
+        assert(CreditCardNumberGenerator().type("Mastercard").one().length == 16)
     }
 
     @Test
     fun euro() {
-        assert(EuroGenerator().one(10F).matches(Regex("\\d{1,2}.\\d{0,2}€")))
+        assert(EuroGenerator().max(10F).one().matches(Regex("\\d{1,2}.\\d{0,2}€")))
     }
 
     @Test
     fun expiryYear() {
         val year = Calendar.getInstance().get(Calendar.YEAR)
-        val range = year..year+10
+        val range = year..year + 10
 
         assert(CreditCardExpiryYearGenerator().one().toInt() in range)
     }
