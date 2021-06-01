@@ -73,7 +73,7 @@ interface _PostcodeGenerator
 
 @Generator("province", String::class)
 interface _ProvinceGenerator {
-    val full: Boolean   //TODO: If a field is a boolean, the Builder's method should have the parameter with a default value
+    val full: Boolean
 }
 
 @Generator("state", String::class)

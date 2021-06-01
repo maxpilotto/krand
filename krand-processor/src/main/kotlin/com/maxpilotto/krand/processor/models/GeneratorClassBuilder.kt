@@ -52,11 +52,26 @@ internal class GeneratorClassBuilder(
                     .build()
                 func = FunSpec.builder(propName)
                     .addParameter(param)
-                    .addCode("return apply{ this.$propName = $propName.toTypedArray() }")
+                    .addCode("""return apply{ 
+                        |   this.$propName = $propName.toTypedArray()
+                        |}""".trimMargin())
                     .returns(ClassName.bestGuess("$packageName.$className"))
                     .build()
 
                 file.addImport("com.maxpilotto.krand.extensions","toTypedArray")
+            }
+            TypeKind.BOOLEAN -> {
+                val booleanProp = ParameterSpec.builder(propName, propType)
+                    .defaultValue("true")
+                    .build()
+
+                func = FunSpec.builder(propName)
+                    .addParameter(booleanProp)
+                    .addCode("""return apply{ 
+                        |   this.$propName = $propName 
+                        |}""".trimMargin())
+                    .returns(ClassName.bestGuess("$packageName.$className"))
+                    .build()
             }
 
             else -> {
