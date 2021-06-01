@@ -5,12 +5,12 @@ import java.util.*
 
 @Generator("age", Int::class)
 interface _AgeGenerator {
-    val type: String      //child, teen, adult, senior
+    val type: String
 }
 
 @Generator("birthday", Date::class)
 interface _BirthdayGenerator {
-    val type: String      //child, teen, adult, senior  //TODO: Enum
+    val type: String
 }
 
 @Generator("cf", String::class)
@@ -38,7 +38,7 @@ interface _GenderGenerator {
 
 @Generator("last", String::class)
 interface _LastnameGenerator {
-    val nationality: String //FIXME: Enum  //'en', 'it', 'nl', 'uk', 'de', 'jp', 'es', 'fr'
+    val nationality: String    //'en', 'it', 'nl', 'uk', 'de', 'jp', 'es', 'fr'
 }
 
 @Generator("name", String::class)
@@ -48,7 +48,7 @@ interface _NameGenerator {
     val prefix: Boolean
     val suffix: Boolean
     val gender: String
-    val nationality: String //FIXME: Enum  //'en', 'it'
+    val nationality: String    //'en', 'it'
 }
 
 @Generator("prefix", String::class)
