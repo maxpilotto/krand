@@ -38,8 +38,13 @@ internal class GeneratorClassBuilder(
         val propName = property.simpleName.asPropertyName()
         val propType = property.returnType.asKotlinTypeName()
         val propNullableType = propType.copy(true)
-        val prop = PropertySpec.builder(propName, propNullableType) //FIXME: Private setter
+        val prop = PropertySpec.builder(propName, propNullableType)
             .mutable(true)
+            .setter(
+                FunSpec.setterBuilder()
+                    .addModifiers(KModifier.PRIVATE)
+                    .build()
+            )
             .initializer("null")
             .build()
         val func: FunSpec
@@ -52,13 +57,15 @@ internal class GeneratorClassBuilder(
                     .build()
                 func = FunSpec.builder(propName)
                     .addParameter(param)
-                    .addCode("""return apply{ 
+                    .addCode(
+                        """return apply{ 
                         |   this.$propName = $propName.toTypedArray()
-                        |}""".trimMargin())
+                        |}""".trimMargin()
+                    )
                     .returns(ClassName.bestGuess("$packageName.$className"))
                     .build()
 
-                file.addImport("com.maxpilotto.krand.extensions","toTypedArray")
+                file.addImport("com.maxpilotto.krand.extensions", "toTypedArray")
             }
             TypeKind.BOOLEAN -> {
                 val booleanProp = ParameterSpec.builder(propName, propType)
@@ -67,9 +74,11 @@ internal class GeneratorClassBuilder(
 
                 func = FunSpec.builder(propName)
                     .addParameter(booleanProp)
-                    .addCode("""return apply{ 
+                    .addCode(
+                        """return apply{ 
                         |   this.$propName = $propName 
-                        |}""".trimMargin())
+                        |}""".trimMargin()
+                    )
                     .returns(ClassName.bestGuess("$packageName.$className"))
                     .build()
             }
@@ -77,7 +86,11 @@ internal class GeneratorClassBuilder(
             else -> {
                 func = FunSpec.builder(propName)
                     .addParameter(propName, propType)
-                    .addCode("return apply{ this.$propName = $propName }")
+                    .addCode(
+                        """return apply{ 
+                        |   this.$propName = $propName 
+                        |}""".trimMargin()
+                    )
                     .returns(ClassName.bestGuess("$packageName.$className"))
                     .build()
             }
