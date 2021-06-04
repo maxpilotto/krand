@@ -81,6 +81,7 @@ interface _StateGenerator {
     val full: Boolean
     val territories: Boolean
     val armedForces: Boolean
+    val USandDC: Boolean
     val country: String
 }
 

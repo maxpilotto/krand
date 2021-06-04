@@ -30,7 +30,7 @@ interface _MillisecondGenerator
 interface _MinuteGenerator
 
 @Generator("month", String::class)
-interface _MonthGenerator
+interface _MonthGenerator   //TODO: Month object
 
 @Generator("second", Int::class)
 interface _SecondGenerator

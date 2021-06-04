@@ -24,6 +24,7 @@ interface _StringGenerator {
     val alpha: Boolean
     val casing: String
     val symbols: Boolean
+    val numeric: Boolean
 }
 
 @Generator("syllable", String::class)
@@ -32,6 +33,7 @@ interface _SyllableGenerator
 @Generator("word", String::class)
 interface _WordGenerator {
     val length: Int
+    val syllables: Int
 }
 
 @Generator("character", String::class)
