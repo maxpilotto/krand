@@ -15,7 +15,7 @@ interface _BoolGenerator {
 interface _DecimalGenerator {
     val min: Int
     val max: Int
-    val digits: Int
+    val fixed: Int
 }
 
 @Generator("integer", Int::class)
