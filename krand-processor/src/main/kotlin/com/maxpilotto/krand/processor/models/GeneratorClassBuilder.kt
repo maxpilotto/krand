@@ -36,9 +36,8 @@ internal class GeneratorClassBuilder(
 
     fun addProperty(property: ExecutableElement) = apply {
         val propName = property.simpleName.asPropertyName()
-        val propType = property.returnType.asKotlinTypeName()
-        val propNullableType = propType.copy(true)
-        val prop = PropertySpec.builder(propName, propNullableType)
+        val propType = property.returnType.asKotlinTypeName().asNullableTypeName()
+        val prop = PropertySpec.builder(propName, propType)
             .mutable(true)
             .setter(
                 FunSpec.setterBuilder()
@@ -68,7 +67,7 @@ internal class GeneratorClassBuilder(
                 file.addImport("com.maxpilotto.krand.extensions", "toTypedArray")
             }
             TypeKind.BOOLEAN -> {
-                val booleanProp = ParameterSpec.builder(propName, propType)
+                val booleanProp = ParameterSpec.builder(propName, propType.asNullableTypeName())
                     .defaultValue("true")
                     .build()
 
