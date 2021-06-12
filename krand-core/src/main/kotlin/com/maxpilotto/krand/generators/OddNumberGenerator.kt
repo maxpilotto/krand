@@ -3,9 +3,9 @@ package com.maxpilotto.krand.generators
 import com.maxpilotto.krand.models.AbstractGenerator
 
 class OddNumberGenerator(seed: Any? = null) : AbstractGenerator<Int>(seed) {
-    var min: Int? = null
+    var min: Int? = Int.MIN_VALUE
         private set
-    var max: Int? = null
+    var max: Int? = Int.MAX_VALUE
         private set
 
     override fun one(): Int {
