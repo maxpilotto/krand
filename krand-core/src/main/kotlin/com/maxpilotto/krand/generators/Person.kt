@@ -4,17 +4,17 @@ import com.maxpilotto.krand.processor.annotations.Generator
 import java.util.*
 
 @Generator("age", Int::class)
-interface _AgeGenerator {
+internal interface _AgeGenerator {
     val type: String
 }
 
 @Generator("birthday", Date::class)
-interface _BirthdayGenerator {
+internal interface _BirthdayGenerator {
     val type: String
 }
 
 @Generator("cf", String::class)
-interface _CFGenerator {
+internal interface _CFGenerator {
     val first: String
     val last: String
     val gender: String
@@ -23,26 +23,26 @@ interface _CFGenerator {
 }
 
 @Generator("cpf", String::class)
-interface _CPFGenerator
+internal interface _CPFGenerator
 
 @Generator("first", String::class)
-interface _FirstnameGenerator {
+internal interface _FirstnameGenerator {
     val gender: String
     val nationality: String    //'us', 'it'
 }
 
 @Generator("gender", String::class)
-interface _GenderGenerator {
+internal interface _GenderGenerator {
     val extraGenders: Array<String>
 }
 
 @Generator("last", String::class)
-interface _LastnameGenerator {
+internal interface _LastnameGenerator {
     val nationality: String    //'en', 'it', 'nl', 'uk', 'de', 'jp', 'es', 'fr'
 }
 
 @Generator("name", String::class)
-interface _NameGenerator {
+internal interface _NameGenerator {
     val middle: Boolean
     val middleInitial: Boolean
     val prefix: Boolean
@@ -52,18 +52,18 @@ interface _NameGenerator {
 }
 
 @Generator("prefix", String::class)
-interface _PrefixGenerator {
+internal interface _PrefixGenerator {
     val full: Boolean
     val gender: String
 }
 
 @Generator("ssn", String::class)
-interface _SSNGenerator {
+internal interface _SSNGenerator {
     val ssnFour: Boolean
     val dashes: Boolean
 }
 
 @Generator("suffix", String::class)
-interface _SuffixGenerator {
+internal interface _SuffixGenerator {
     val full: Boolean
 }

@@ -3,63 +3,63 @@ package com.maxpilotto.krand.generators
 import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("avatar", String::class)
-interface _AvatarGenerator {
+internal interface _AvatarGenerator {
     val protocol: String
     val fileExtension: String
     val email: String
 }
 
 @Generator("color", String::class)
-interface _ColorGenerator {
+internal interface _ColorGenerator {
     val format: String
     val grayscale: Boolean
     val casing: String
 }
 
 @Generator("company", String::class)
-interface _CompanyGenerator
+internal interface _CompanyGenerator
 
 @Generator("domain", String::class)
-interface _DomainGenerator {
+internal interface _DomainGenerator {
     val tld: String
 }
 
 @Generator("email", String::class)
-interface _EmailGenerator {
+internal interface _EmailGenerator {
     val domain: String
 }
 
 @Generator("fbid", String::class)
-interface _FacebookIDGenerator
+internal interface _FacebookIDGenerator
 
 @Generator("google_analytics", String::class)
-interface _GoogleAnalyticsGenerator
+internal interface _GoogleAnalyticsGenerator
 
 @Generator("hashtag", String::class)
-interface _HashtagGenerator
+internal interface _HashtagGenerator
 
 @Generator("ip", String::class)
-interface _IPGenerator
+internal interface _IPGenerator
 
 @Generator("ipv6", String::class)
-interface _IPV6Generator
+internal interface _IPV6Generator
 
 @Generator("klout", Double::class)
-interface _KloutScoreGenerator
+internal interface _KloutScoreGenerator
 
 @Generator("profession", String::class)
-interface _ProfessionGenerator {
+internal interface _ProfessionGenerator {
     val rank: Boolean
 }
 
 @Generator("tld", String::class)
-interface _TopLevelDomainGenerator
+internal interface _TopLevelDomainGenerator
 
 @Generator("twitter", String::class)
-interface _TwitterGenerator
+internal interface _TwitterGenerator
 
 @Generator("url", String::class)
-interface _URLGenerator {
+internal interface _URLGenerator {
     val protocol: String
     val domain: String
     val prefix: String
