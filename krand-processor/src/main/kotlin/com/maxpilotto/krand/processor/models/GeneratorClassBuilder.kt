@@ -6,6 +6,7 @@ import com.maxpilotto.krand.processor.extensions.asPropertyName
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import javax.lang.model.element.ExecutableElement
+import javax.lang.model.element.VariableElement
 import javax.lang.model.type.ArrayType
 import javax.lang.model.type.TypeKind
 
@@ -27,7 +28,7 @@ internal class GeneratorClassBuilder(
         val superClass = ClassName.bestGuess(GENERATOR_SUPERCLASS)
             .parameterizedBy(genericType)
 
-        file = FileSpec.builder(packageName, className)
+        file = FileSpec.builder(packageName, className).indent("\t")
         _class = TypeSpec.classBuilder(className)
             .primaryConstructor(primaryConstructor)
             .superclass(superClass)
