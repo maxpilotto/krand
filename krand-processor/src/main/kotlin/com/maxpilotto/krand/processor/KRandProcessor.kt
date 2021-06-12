@@ -38,10 +38,6 @@ class KRandProcessor : AbstractProcessor() {
                     generatorType
                 )
 
-                println("Class: ${classElement.simpleName}")
-                println(classElement.enclosedElements.joinToString(" , ") { (it is VariableElement).toString() })
-                println()
-
                 // Loop through all getters of the interface or abstract class
                 classElement.getPropertyGetters().forEach { getter ->
                     // Look up for a property that holds the default value
