@@ -3,9 +3,9 @@ package com.maxpilotto.krand.generators
 import com.maxpilotto.krand.models.AbstractGenerator
 
 class DiceGenerator(seed: Any? = null) : AbstractGenerator<Iterable<Int>>(seed) {
-    var rolls: Int? = null
+    var rolls: Int? = 2
         private set
-    var max: Int? = null
+    var max: Int? = 6
         private set
     var sum: Boolean? = null
         private set
