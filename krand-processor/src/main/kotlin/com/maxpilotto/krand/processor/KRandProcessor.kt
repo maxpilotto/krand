@@ -2,11 +2,12 @@ package com.maxpilotto.krand.processor
 
 import com.maxpilotto.krand.processor.annotations.Generator
 import com.maxpilotto.krand.processor.extensions.asKotlinTypeName
-import com.maxpilotto.krand.processor.extensions.getProperties
+import com.maxpilotto.krand.processor.extensions.getPropertyGetters
 import com.maxpilotto.krand.processor.models.GeneratorClassBuilder
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.TypeElement
+import javax.lang.model.element.VariableElement
 import javax.lang.model.type.MirroredTypeException
 import javax.lang.model.type.TypeMirror
 
@@ -30,14 +31,27 @@ class KRandProcessor : AbstractProcessor() {
                     generatorType
                 )
 
+                // Override the "one" method, which is the primary method used for generation
                 generatorBuilder.addPrimaryGenerator(
-                    classElement.getProperties(),
+                    classElement.getPropertyGetters(),
                     annotation.name,
                     generatorType
                 )
 
-                classElement.getProperties().forEach {
-                    generatorBuilder.addProperty(it)
+                println("Class: ${classElement.simpleName}")
+                println(classElement.enclosedElements.joinToString(" , ") { (it is VariableElement).toString() })
+                println()
+
+                // Loop through all getters of the interface or abstract class
+                classElement.getPropertyGetters().forEach { getter ->
+                    // Look up for a property that holds the default value
+                    val property = classElement.enclosedElements.find {
+                        it is VariableElement && it.simpleName.toString() == getter.simpleName.toString()
+                            .removePrefix("get")
+                            .decapitalize()
+                    } as VariableElement?
+
+                    generatorBuilder.addProperty(getter, property)
                 }
 
                 generatorBuilder.build().writeTo(processingEnv.filer)
