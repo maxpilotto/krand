@@ -3,8 +3,8 @@ package com.maxpilotto.krand.generators
 import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("bool", Boolean::class)
-interface _BoolGenerator {
-    val likelihood: Int
+abstract class _BoolGenerator { //TODO: These classes or interfaces should be marked as internal
+    val likelihood: Int = 50
 }
 
 //FIXME: The AbstractGenerator cannot and shouldn't generate nullable values but this generator may return null
@@ -12,27 +12,27 @@ interface _BoolGenerator {
 //interface _FalsyGenerator
 
 @Generator("floating", Double::class)
-interface _DecimalGenerator {
-    val min: Int
-    val max: Int
-    val fixed: Int
+abstract class _DecimalGenerator {
+    val min: Int = Int.MIN_VALUE
+    val max: Int = Int.MAX_VALUE
+    val fixed: Int = 4
 }
 
 @Generator("integer", Int::class)
-interface _IntegerGenerator {
-    val min: Int
-    val max: Int
+abstract class _IntegerGenerator {
+    val min: Int = Int.MIN_VALUE
+    val max: Int = Int.MAX_VALUE
 }
 
 @Generator("prime", Int::class)
-interface _PrimeGenerator {
-    val min: Int
-    val max: Int
+abstract class _PrimeGenerator {
+    val min: Int = 0
+    val max: Int = 10000
 }
 
 @Generator("natural", Int::class)
-interface _NaturalGenerator {
-    val min: Int
-    val max: Int
-    val exclude: Array<Int>
+abstract class _NaturalGenerator {
+    val min: Int = 0
+    val max: Int = Int.MAX_VALUE
+    val exclude: Array<Int> = arrayOf()
 }

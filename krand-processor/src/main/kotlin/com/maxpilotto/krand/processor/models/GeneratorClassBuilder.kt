@@ -34,9 +34,9 @@ internal class GeneratorClassBuilder(
             .addSuperclassConstructorParameter("seed")
     }
 
-    fun addProperty(property: ExecutableElement) = apply {
-        val propName = property.simpleName.asPropertyName()
-        val propType = property.returnType.asKotlinTypeName().asNullableTypeName()
+    fun addProperty(propertyGetter: ExecutableElement, property: VariableElement?) = apply {
+        val propName = propertyGetter.simpleName.asPropertyName()
+        val propType = propertyGetter.returnType.asKotlinTypeName().asNullableTypeName()
         val prop = PropertySpec.builder(propName, propType)
             .mutable(true)
             .setter(
@@ -44,13 +44,17 @@ internal class GeneratorClassBuilder(
                     .addModifiers(KModifier.PRIVATE)
                     .build()
             )
-            .initializer("null")
+            .initializer(property?.constantValue.toString())
             .build()
         val func: FunSpec
 
-        when (property.returnType.kind) {
+        if (propertyGetter is VariableElement) {
+            println("Default value for $propName: ${propertyGetter.constantValue}")
+        }
+
+        when (propertyGetter.returnType.kind) {
             TypeKind.ARRAY -> {
-                val componentType = (property.returnType as ArrayType).componentType
+                val componentType = (propertyGetter.returnType as ArrayType).componentType
                 val param = ParameterSpec.builder(propName, componentType.asKotlinTypeName())
                     .addModifiers(KModifier.VARARG)
                     .build()
