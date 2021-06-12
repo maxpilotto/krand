@@ -3,22 +3,22 @@ package com.maxpilotto.krand.generators
 import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("letter", String::class)
-interface _LetterGenerator {
+internal interface _LetterGenerator {
     val casing: String
 }
 
 @Generator("paragraph", String::class)
-interface _ParagraphGenerator {
+internal interface _ParagraphGenerator {
     val sentences: Int
 }
 
 @Generator("sentence", String::class)
-interface _SentenceGenerator {
+internal interface _SentenceGenerator {
     val words: Int
 }
 
 @Generator("string", String::class)
-interface _StringGenerator {
+internal interface _StringGenerator {
     val length: Int
     val pool: String
     val alpha: Boolean
@@ -28,16 +28,16 @@ interface _StringGenerator {
 }
 
 @Generator("syllable", String::class)
-interface _SyllableGenerator
+internal interface _SyllableGenerator
 
 @Generator("word", String::class)
-interface _WordGenerator {
+internal interface _WordGenerator {
     val length: Int
     val syllables: Int
 }
 
 @Generator("character", String::class)
-interface _CharacterGenerator {
+internal interface _CharacterGenerator {
     val pool: String
     val alpha: Boolean
     val numeric: Boolean

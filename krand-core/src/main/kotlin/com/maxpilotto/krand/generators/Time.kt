@@ -5,10 +5,10 @@ import com.maxpilotto.krand.processor.annotations.Generator
 import java.util.*
 
 @Generator("ampm", String::class)
-interface _AMPMGenerator
+internal interface _AMPMGenerator
 
 @Generator("date", Date::class)
-interface _DateGenerator {
+internal interface _DateGenerator {
     val year: String
     val month: String
     val day: String
@@ -16,38 +16,38 @@ interface _DateGenerator {
 }
 
 @Generator("hammertime", Int::class)
-interface _HammertimeGenerator
+internal interface _HammertimeGenerator
 
 @Generator("hour", Int::class)
-interface _HourGenerator {
+internal interface _HourGenerator {
     val twentyFour: Boolean
 }
 
 @Generator("millisecond", Int::class)
-interface _MillisecondGenerator
+internal interface _MillisecondGenerator
 
 @Generator("minute", Int::class)
-interface _MinuteGenerator
+internal interface _MinuteGenerator
 
 @Generator("month", String::class)
-interface _MonthGenerator   //TODO: Month object
+internal interface _MonthGenerator   //TODO: Month object
 
 @Generator("second", Int::class)
-interface _SecondGenerator
+internal interface _SecondGenerator
 
 @Generator("timestamp", Int::class)
-interface _TimestampGenerator
+internal interface _TimestampGenerator
 
 @Generator("timezone", Timezone::class)
-interface _TimezoneGenerator
+internal interface _TimezoneGenerator
 
 @Generator("weekday", String::class)
-interface _WeekdayGenerator {
+internal interface _WeekdayGenerator {
     val weekdayOnly: Boolean
 }
 
 @Generator("year", String::class)
-interface _YearGenerator {
+internal interface _YearGenerator {
     val min: String
     val max: String
 }

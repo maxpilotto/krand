@@ -4,38 +4,38 @@ import com.maxpilotto.krand.models.Currency
 import com.maxpilotto.krand.processor.annotations.Generator
 
 @Generator("cc", String::class)
-interface _CreditCardNumberGenerator {
+internal interface _CreditCardNumberGenerator {
     val type: String
 }
 
 @Generator("cc_type", String::class)
-interface _CreditCardTypeGenerator
+internal interface _CreditCardTypeGenerator
 
 @Generator("currency", Currency::class)
-interface _CurrencyGenerator
+internal interface _CurrencyGenerator
 
 @Generator("currency_pair", String::class)
-interface _CurrencyPairGenerator
+internal interface _CurrencyPairGenerator
 
 @Generator("dollar", String::class)
-interface _DollarGenerator {
+internal interface _DollarGenerator {
     val max: Float
 }
 
 @Generator("euro", String::class)
-interface _EuroGenerator {
+internal interface _EuroGenerator {
     val max: Float
 }
 
 @Generator("exp", String::class)
-interface _CreditCardExpiryGenerator
+internal interface _CreditCardExpiryGenerator
 
 @Generator("exp_month", String::class)
-interface _CreditCardExpiryMonthGenerator {
+internal interface _CreditCardExpiryMonthGenerator {
     val future: Boolean
 }
 
 @Generator("exp_year", String::class)
-interface _CreditCardExpiryYearGenerator {
+internal interface _CreditCardExpiryYearGenerator {
     val future: Boolean
 }
