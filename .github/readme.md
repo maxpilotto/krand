@@ -74,13 +74,29 @@ Pick.weighted(items, weights)         // items.weighted(weights)
 Pick.weighted(items, weights, 2)      // items.weighted(weights, 2)
 ```
 
+## Shuffle
+
+You can use the `Shuffle` utility to shuffle lists, arrays, strings or enum values
+
+```kotlin
+val values = listOf(1, 2, 3, 4)
+
+Shuffle.list(values)    // 3, 4, 2, 1
+```
+
+```kotlin
+val value = "hello1234"
+
+Shuffle.string(value)    // e12ol3lh4
+```
+
 ## Custom generator
 
 You can create your own custom generator by extending the class `AbstractGenerator` and using any of the Chance JS generators
 
 ```kotlin
 // Odd/Even number generator
-class CustomGenerator : AbstractGenerator<Int>() {
+class CustomGenerator(seed: Any? = null) : AbstractGenerator<Int>(seed) {
     var isOdd: Boolean = false
         private set
 
