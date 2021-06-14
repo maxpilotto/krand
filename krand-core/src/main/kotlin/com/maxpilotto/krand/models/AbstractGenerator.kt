@@ -1,5 +1,6 @@
 package com.maxpilotto.krand.models
 
+import com.maxpilotto.krand.utils.Chance
 import com.maxpilotto.krand.utils.Resources
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.NativeArray
@@ -10,19 +11,6 @@ import java.util.*
 abstract class AbstractGenerator<R>(
     val seed: Any? = null
 ) {
-    protected val context: Context
-    protected val globalScope: ScriptableObject
-
-    init {
-        val chanceJs = Resources.load("/chance.js").reader()
-
-        context = Context.enter()
-        globalScope = context.initSafeStandardObjects()
-        context.optimizationLevel = -1
-        context.evaluateString(globalScope, "exports = {}", "index", 1, null)
-        context.evaluateReader(globalScope, chanceJs, "index", 1, null)
-    }
-
     protected fun stringify(value: Any?): String {
         return when (value) {
             is String -> "\"$value\""
@@ -67,7 +55,7 @@ abstract class AbstractGenerator<R>(
         function += if (args.isNotEmpty()) ".$functionName($args," else ".$functionName("
         function += "$optionalArgs)"
 
-        val value = context.evaluateString(globalScope, function, "index", 1, null)
+        val value = Chance.evaluateString(function)
         val valueType = value::class.java.canonicalName
 
         return when {
