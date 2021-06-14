@@ -114,6 +114,12 @@ object Pick {
 
     @JvmOverloads
     @JvmStatic
+    fun one(string: String, seed: Any? = null): String {
+        return one(string.toList()).toString()
+    }
+
+    @JvmOverloads
+    @JvmStatic
     fun <T> many(iterable: Iterable<T>, count: Int, seed: Any? = null): List<T> {
         return List(count) {
             one(iterable, seed)
@@ -134,5 +140,11 @@ object Pick {
         return List(count) {
             one(seed)
         }
+    }
+
+    @JvmOverloads
+    @JvmStatic
+    fun many(string: String, count: Int, seed: Any? = null): String {
+        return many(string.toList(), count, seed).joinToString("")
     }
 }

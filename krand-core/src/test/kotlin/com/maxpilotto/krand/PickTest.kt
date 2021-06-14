@@ -17,6 +17,7 @@ class PickTest {
         0, 0, 100
     )
     private val seed = 123456789
+    private val string = "helloworld1234"
 
     @Test
     fun pickWeightedMany() {
@@ -76,8 +77,8 @@ class PickTest {
 
     @Test
     fun pickManyWithSeed() {
-        val list1 = Pick.many(companies,20, seed)
-        val list2 = Pick.many(companies,20, seed)
+        val list1 = Pick.many(companies, 20, seed)
+        val list2 = Pick.many(companies, 20, seed)
 
         list1.forEachIndexed { i, item ->
             assert(item == list2[i])
@@ -92,5 +93,15 @@ class PickTest {
         list1.forEachIndexed { i, item ->
             assert(item == list2[i])
         }
+    }
+
+    @Test
+    fun oneCharacter() {
+        assert(Pick.one(string) in string)
+    }
+
+    @Test
+    fun manyCharacters() {
+        assert(Pick.many(string, 20).all { it in string })
     }
 }
