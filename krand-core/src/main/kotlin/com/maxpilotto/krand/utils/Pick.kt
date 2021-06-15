@@ -103,6 +103,12 @@ object Pick {
 
     @JvmOverloads
     @JvmStatic
+    fun one(string: String, seed: Any? = null): String {
+        return one(string.toList(), seed).toString()
+    }
+
+    @JvmOverloads
+    @JvmStatic
     inline fun <reified T> one(seed: Any? = null): T {
         val values = T::class.java.enumConstants
         val gen = IntegerGenerator(seed)
@@ -110,12 +116,6 @@ object Pick {
             .max(values.size - 1)
 
         return values[gen.one()]
-    }
-
-    @JvmOverloads
-    @JvmStatic
-    fun one(string: String, seed: Any? = null): String {
-        return one(string.toList()).toString()
     }
 
     @JvmOverloads
@@ -136,15 +136,16 @@ object Pick {
 
     @JvmOverloads
     @JvmStatic
+    fun many(string: String, count: Int, seed: Any? = null): String {
+        return many(string.toList(), count, seed).joinToString("")
+    }
+
+    @JvmOverloads
+    @JvmStatic
     inline fun <reified T> many(count: Int, seed: Any? = null): List<T> {
         return List(count) {
             one(seed)
         }
     }
 
-    @JvmOverloads
-    @JvmStatic
-    fun many(string: String, count: Int, seed: Any? = null): String {
-        return many(string.toList(), count, seed).joinToString("")
-    }
 }
