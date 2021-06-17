@@ -74,6 +74,7 @@ internal interface _PostcodeGenerator
 @Generator("province", String::class)
 internal interface _ProvinceGenerator {
     val full: Boolean
+    val country: String     //'ca', 'it'
 }
 
 @Generator("state", String::class)
