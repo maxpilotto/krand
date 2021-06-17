@@ -23,7 +23,7 @@ class DiceTest {
 
     @Test
     fun diceMany() {
-        println(
+        assert(
             DiceGenerator().rolls(2).max(6).many(10).flatten().size == 20
         )
     }
