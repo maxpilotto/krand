@@ -7,18 +7,14 @@ class DiceGenerator(seed: Any? = null) : AbstractGenerator<Iterable<Int>>(seed) 
         private set
     var max: Int? = 6
         private set
-    var sum: Boolean? = null
-        private set
 
-    override fun one(): Iterable<Int> = execute(
+    override fun one() = execute<Iterable<Double>>(
         "rpg",
         listOf(
             "${rolls}d$max"
         ),
-        mapOf(
-            "sum" to sum
-        )
-    )
+        mapOf()
+    ).map { it.toInt() }
 
     fun dice(dice: String) = apply {
         require(dice.matches(Regex("^\\d+d\\d+$"))) { "Dice must match format: #d#" }
@@ -35,9 +31,5 @@ class DiceGenerator(seed: Any? = null) : AbstractGenerator<Iterable<Int>>(seed) 
 
     fun max(max: Int) = apply {
         this.max = max
-    }
-
-    fun sum(sum: Boolean) = apply {
-        this.sum = sum
     }
 }
