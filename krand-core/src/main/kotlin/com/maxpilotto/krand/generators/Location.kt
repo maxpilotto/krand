@@ -22,6 +22,7 @@ internal interface _CityGenerator
 @Generator("coordinates", String::class)
 internal interface _CoordinatesGenerator {
     val fixed: Int
+    val format: String
 }
 
 @Generator("country", String::class)
@@ -45,6 +46,7 @@ internal interface _LatitudeGenerator {
     val fixed: Int
     val min: Float
     val max: Float
+    val format: String
 }
 
 @Generator("locale", String::class)
@@ -57,6 +59,7 @@ internal interface _LongitudeGenerator {
     val fixed: Int
     val min: Float
     val max: Float
+    val format: String
 }
 
 @Generator("phone", String::class)

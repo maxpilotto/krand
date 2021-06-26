@@ -28,7 +28,7 @@ internal interface _CPFGenerator
 @Generator("first", String::class)
 internal interface _FirstnameGenerator {
     val gender: String
-    val nationality: String    //'us', 'it'
+    val nationality: String    //'en', 'it', 'nl', 'fr'
 }
 
 @Generator("gender", String::class)

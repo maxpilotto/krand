@@ -10,6 +10,7 @@ internal interface _LetterGenerator {
 @Generator("paragraph", String::class)
 internal interface _ParagraphGenerator {
     val sentences: Int
+    val lineBreak: Boolean
 }
 
 @Generator("sentence", String::class)
@@ -19,6 +20,8 @@ internal interface _SentenceGenerator {
 
 @Generator("string", String::class)
 internal interface _StringGenerator {
+    val min: Int
+    val max: Int
     val length: Int
     val pool: String
     val alpha: Boolean
