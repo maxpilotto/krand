@@ -109,6 +109,7 @@ class AllTest {
         println(DiceGenerator().rolls(2).max(6).one())
         println(EvenNumberGenerator().one())
         println(OddNumberGenerator().one())
+        println(AadharGenerator().one())
         println(NoteGenerator().one())
         println(TempoGenerator().one())
     }
