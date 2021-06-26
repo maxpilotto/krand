@@ -1,5 +1,6 @@
 package com.maxpilotto.krand
 
+import com.maxpilotto.krand.generators.AadharGenerator
 import com.maxpilotto.krand.generators.GenderGenerator
 import org.junit.jupiter.api.Test
 
@@ -13,5 +14,10 @@ class PersonTest {
         ).one()
 
         println(g)
+    }
+
+    @Test
+    fun aadhar() {
+        assert(AadharGenerator().separatedByWhiteSpace(false).onlyLastFour(false).one().length == 12)
     }
 }

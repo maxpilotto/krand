@@ -3,6 +3,12 @@ package com.maxpilotto.krand.generators
 import com.maxpilotto.krand.processor.annotations.Generator
 import java.util.*
 
+@Generator("aadhar", String::class)
+internal interface _AadharGenerator {
+    val onlyLastFour: Boolean
+    val separatedByWhiteSpace: Boolean
+}
+
 @Generator("age", Int::class)
 internal interface _AgeGenerator {
     val type: String
