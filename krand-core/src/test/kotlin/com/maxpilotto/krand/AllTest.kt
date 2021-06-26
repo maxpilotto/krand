@@ -111,6 +111,7 @@ class AllTest {
         println(OddNumberGenerator().one())
         println(TemplateGenerator().one())
         println(AadharGenerator().one())
+        println(MACGenerator().one())
         println(NoteGenerator().one())
         println(TempoGenerator().one())
     }

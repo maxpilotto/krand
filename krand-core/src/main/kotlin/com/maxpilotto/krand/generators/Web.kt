@@ -47,6 +47,11 @@ internal interface _IPV6Generator
 @Generator("klout", Double::class)
 internal interface _KloutScoreGenerator
 
+@Generator("mac", String::class)
+internal interface _MACGenerator {
+    val delimiter: String
+}
+
 @Generator("profession", String::class)
 internal interface _ProfessionGenerator {
     val rank: Boolean
