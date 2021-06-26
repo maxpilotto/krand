@@ -57,4 +57,10 @@ class BasicTest {
         assert(NaturalGenerator().min(0).max(1).exclude(1).one() == 0)
         assert(NaturalGenerator().min(0).max(1).exclude(1).many(10).all { it == 0 })
     }
+
+    @Test
+    fun template() {
+        assert(TemplateGenerator().template("{AA####}").one().length == 6)
+        assert(TemplateGenerator().template("{AAAAAA####}").one().length == 6)
+    }
 }
