@@ -1,61 +1,49 @@
 package com.maxpilotto.krand.models
 
-import com.maxpilotto.krand.utils.Chance
-import com.maxpilotto.krand.utils.Resources
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.NativeArray
 import org.mozilla.javascript.NativeObject
-import org.mozilla.javascript.ScriptableObject
 import java.util.*
 
 abstract class AbstractGenerator<R>(
     val seed: Any? = null
 ) {
-    protected fun stringify(value: Any?): String {
-        return when (value) {
-            is String -> "\"$value\""
-            is Iterable<*> -> value.joinToString(",", "[", "]", transform = { stringify(it) })
-            is Array<*> -> value.joinToString(",", "[", "]", transform = { stringify(it) })
-
-            else -> value.toString()
-        }
-    }
+     protected val chance: Chance = Chance(seed)
 
     /**
-     * Executes the given [functionName] with the given [functionOptionalArgs]
+     * Executes the given [functionName] with no arguments
      *
-     * The resulting function call will be `Chance(seed).functionName({ functionOptionalArgs })`
+     * The resulting function call will be `Chance(seed).functionName()`
      */
     protected inline fun <reified R> execute(functionName: String): R {
         return execute(functionName, listOf(), mapOf())
     }
 
     /**
-     * Executes the given [functionName] with the given [functionOptionalArgs]
+     * Executes the given [functionName] with the given [args]
      *
-     * The resulting function call will be `Chance(seed).functionName({ functionOptionalArgs })`
+     * The resulting function call will be `Chance(seed).functionName(args)`
      */
-    protected inline fun <reified R> execute(functionName: String, functionOptionalArgs: Map<String, Any?>): R {
-        return execute(functionName, listOf(), functionOptionalArgs)
+    protected inline fun <reified R> execute(functionName: String, args: List<Any>): R {
+        return execute(functionName, args, mapOf())
     }
 
     /**
-     * Executes the given [functionName] with the given [functionArgs] and [functionOptionalArgs]
+     * Executes the given [functionName] with the given [options]
      *
-     * The resulting function call will be `Chance(seed).functionName(functionArgs, { functionOptionalArgs })`
+     * The resulting function call will be `Chance(seed).functionName({ options })`
      */
-    protected inline fun <reified R> execute(functionName: String, functionArgs: List<Any>, functionOptionalArgs: Map<String, Any?>): R {
-        val args = functionArgs.joinToString(",", transform = { stringify(it) })
-        val optionalArgs = functionOptionalArgs.filter { it.value != null }
-            .map { "${it.key}: ${stringify(it.value)}" }
-            .joinToString(",", "{", "}")
-        var function = "exports.Chance"
+    protected inline fun <reified R> execute(functionName: String, options: Map<String, Any?>): R {
+        return execute(functionName, listOf(), options)
+    }
 
-        function += if (seed != null) "(\"$seed\")" else "()"
-        function += if (args.isNotEmpty()) ".$functionName($args," else ".$functionName("
-        function += "$optionalArgs)"
-
-        val value = Chance.evaluateString(function)
+    /**
+     * Executes the given [functionName] with the given [args] and [options]
+     *
+     * The resulting function call will be `Chance(seed).functionName(args, { options })`
+     */
+    protected inline fun <reified R> execute(functionName: String, args: List<Any>, options: Map<String, Any?>): R {
+        val value = chance.invoke(functionName, args, options)
         val valueType = value::class.java.canonicalName
 
         return when {
