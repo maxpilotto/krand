@@ -61,6 +61,6 @@ class BasicTest {
     @Test
     fun template() {
         assert(TemplateGenerator().template("{AA####}").one().length == 6)
-        assert(TemplateGenerator().template("{AAAAAA####}").one().length == 6)
+        assert(TemplateGenerator().template("{AAAAAA####}").one().length == 10)
     }
 }
