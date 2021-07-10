@@ -8,7 +8,8 @@ class Chance(val seed: Any? = null) {
     private val nativeObject: NativeObject
 
     init {
-        val obj = Rhino.evaluate("new exports.Chance(${Rhino.stringify(seed)})")
+        val generator = if (seed != null) "Chance(${Rhino.stringify(seed)})" else "Chance()"
+        val obj = Rhino.evaluate("new exports.$generator")
 
         if (obj is NativeObject) {
             nativeObject = obj
