@@ -62,19 +62,17 @@ CoinGenerator("my-seed").one() == CoinGenerator("my-seed").one()    // True
 
 ## Pickers
 
-You can pick a single value or a list of values from a List/Array/String by using the `Pick` class or the Kotlin extension methods
+You can pick a single value or a list of values from a List/Array/String by using the `Picker` class or the Kotlin extension methods, the latter don't have an option for the seed
 
 ```kotlin
 val items = listOf("Dog", "Cat", "Goat", "Fox")
 val weights = listOf(50, 50, 5, 10)
-val string = "hello"
+val picker = Picker("MySeed")
 
-Pick.one(items)        // items.pickOne()  
-Pick.many(items, 2)    // items.pickMany(2)
-Pick.weighted(items, weights)         // items.weighted(weights)
-Pick.weighted(items, weights, 2)      // items.weighted(weights, 2)
-Pick.one(string)       // string.pickOne() or string.pickChar()
-Pick.many(string, 2)   // string.pickMany(2) or string.pickChars(2) 
+picker.one(items)                   // items.pickOne()    
+picker.many(items, 10)              // items.pickMany(10)
+picker.weighted(items, weights)     // items.weighted(weights)
+picker.weighted(items, weights, 2)  // items.weighted(weights, 2)
 ```
 
 ## Shuffle
