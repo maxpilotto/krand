@@ -56,7 +56,7 @@ class PickerTest {
     @Test
     fun oneEnum() {
         assert(
-            Picker().one<Animal>() in Animal.values()
+            Picker().one() in Animal.values()
         )
     }
 
@@ -101,7 +101,7 @@ class PickerTest {
     @Test
     fun manyEnumSeed() {
         assert(
-            Picker(seed).many<Animal>( 10) == Picker(seed).many<PickerTest.Animal>( 10)
+            Picker(seed).many<Animal>( 10) == Picker(seed).many<Animal>( 10)
         )
     }
 

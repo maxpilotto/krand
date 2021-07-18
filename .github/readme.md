@@ -77,18 +77,20 @@ picker.weighted(items, weights, 2)  // items.weighted(weights, 2)
 
 ## Shuffle
 
-You can use the `Shuffle` utility to shuffle lists, arrays, strings or enum values
+You can use the `Shuffler` utility to shuffle lists, arrays, strings or enum values
 
 ```kotlin
 val values = listOf(1, 2, 3, 4)
+val shuffle = Shuffler()
 
-Shuffle.list(values)    // 3, 4, 2, 1
+shuffle(values)    // 3, 4, 2, 1
 ```
 
 ```kotlin
 val value = "hello1234"
+val shuffle = Shuffler("MySeed")
 
-Shuffle.string(value)    // e12ol3lh4
+shuffle(value)    // e12ol3lh4
 ```
 
 ## Custom generator
