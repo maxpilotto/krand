@@ -123,6 +123,7 @@ class CustomGenerator(seed: Any? = null) : AbstractGenerator<Int>(seed) {
 
 ```
 AMPM
+Aadhar
 Address
 Age
 Altitude
@@ -159,6 +160,7 @@ D4
 D6
 D8
 Date
+Decimal
 Depth
 Dice
 Dollar
@@ -167,9 +169,7 @@ Email
 Euro
 EvenNumber
 FacebookID
-//Falsy     //Doesn't work
 Firstname
-Float
 GUID
 Gender
 Geohash
@@ -187,12 +187,14 @@ Latitude
 Letter
 Locale
 Longitude
+MAC
 Millisecond
 Minute
 Month
 Name
 Natural
 Normal
+Note
 OddNumber
 Paragraph
 Phone
@@ -211,6 +213,8 @@ Street
 String
 Suffix
 Syllable
+Template
+Tempo
 Timestamp
 Timezone
 TopLevelDomain
@@ -218,7 +222,6 @@ Twitter
 URL
 Weekday
 WindowsPhone7ANID
-//WindowsPhone8ANID2    //Doesn't work
 Word
 Year
 ZipCode
