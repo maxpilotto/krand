@@ -5,7 +5,7 @@ import com.maxpilotto.krand.generators.NaturalGenerator
 class Picker(val seed: Any? = null) {
     private val rng = NaturalGenerator(seed)
 
-    fun <T> weighted(items: Array<T>, weights: Iterable<Int>, count: Int): List<T> {    //FIXME: Should return an array since one is provided
+    fun <T> weighted(items: Array<T>, weights: Iterable<Int>, count: Int): List<T> {
         return weighted(items.toList(), weights, count)
     }
 
@@ -16,6 +16,12 @@ class Picker(val seed: Any? = null) {
     fun <T> weighted(items: Iterable<T>, weights: Iterable<Int>, count: Int): List<T> {
         return List(count) {
             weighted(items, weights)
+        }
+    }
+
+    fun <K,V> weighted(map: Map<K,V>, weights: Iterable<Int>, count: Int): List<Map.Entry<K,V>> {
+        return List(count) {
+            weighted(map.entries, weights)
         }
     }
 
@@ -64,32 +70,14 @@ class Picker(val seed: Any? = null) {
         return items.last()
     }
 
+    fun <K,V> weighted(map: Map<K,V>, weights: Iterable<Int>): Map.Entry<K,V> {
+        return weighted(map.entries, weights)
+    }
+
     inline fun <reified T> weighted(weights: Iterable<Int>): T {
         val values = T::class.java.enumConstants
 
         return weighted(values, weights)
-    }
-
-    fun <T> one(items: Iterable<T>): T {
-        val index = rng
-            .max(items.count() - 1)
-            .one()
-
-        return items.elementAt(index)
-    }
-
-    fun <T> one(items: Array<T>): T {
-        return one(items.toList())
-    }
-
-    fun one(string: String): String {
-        return one(string.toList()).toString()
-    }
-
-    inline fun <reified T> one(): T {
-        val values = T::class.java.enumConstants
-
-        return one(values)
     }
 
     fun <T> many(items: Iterable<T>, count: Int): List<T> {
@@ -112,9 +100,41 @@ class Picker(val seed: Any? = null) {
         }
     }
 
+    fun <K,V> many(map: Map<K,V>, count: Int): List<Map.Entry<K,V>> {
+        return List(count) {
+            one(map)
+        }
+    }
+
     inline fun <reified T> many(count: Int): List<T> {
         return List(count) {
             one()
         }
+    }
+
+    fun <T> one(items: Iterable<T>): T {
+        val index = rng
+            .max(items.count() - 1)
+            .one()
+
+        return items.elementAt(index)
+    }
+
+    fun <T> one(items: Array<T>): T {
+        return one(items.toList())
+    }
+
+    fun one(string: String): String {
+        return one(string.toList()).toString()
+    }
+
+    fun <K,V> one(map: Map<K,V>): Map.Entry<K,V> {
+        return one(map.entries)
+    }
+
+    inline fun <reified T> one(): T {
+        val values = T::class.java.enumConstants
+
+        return one(values)
     }
 }

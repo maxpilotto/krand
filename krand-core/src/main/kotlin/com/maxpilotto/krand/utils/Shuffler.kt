@@ -25,6 +25,10 @@ class Shuffler(val seed: Any? = null) {
         return invoke(string.toList()).joinToString("")
     }
 
+    operator fun <K,V> invoke(map: Map<K,V>): Map<K,V> {
+        return invoke(map.toList()).toMap()
+    }
+
     operator fun <T> invoke(iterable: Iterable<T>): List<T> {
         val out = mutableListOf<T>()
         val indexes = MutableList(iterable.count()) { it }
