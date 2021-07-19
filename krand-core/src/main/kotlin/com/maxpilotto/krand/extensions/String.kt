@@ -1,6 +1,7 @@
 package com.maxpilotto.krand.extensions
 
 import com.maxpilotto.krand.utils.Picker
+import com.maxpilotto.krand.utils.Shuffler
 
 fun String.pickOne(): String {
     return Picker().one(this)
@@ -16,4 +17,8 @@ fun String.pickChar(): Char {
 
 fun String.pickChars(count: Int): List<Char> {
     return Picker().many(toList(), count)
+}
+
+fun String.shuffle(): String {
+    return Shuffler()(this)
 }
