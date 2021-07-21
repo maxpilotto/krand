@@ -77,6 +77,7 @@ abstract class AbstractGenerator<R>(
                 Char::class -> value.toChar()
                 Short::class -> value.toShort()
                 Byte::class -> value.toByte()
+                String::class -> value.toString()
 
                 else -> value
             }
