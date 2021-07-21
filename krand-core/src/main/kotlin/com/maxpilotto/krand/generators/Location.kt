@@ -41,7 +41,7 @@ internal interface _GeohashGenerator {
     val length: Int
 }
 
-@Generator("latitude", Float::class)
+@Generator("latitude", String::class)
 internal interface _LatitudeGenerator {
     val fixed: Int
     val min: Float
@@ -54,7 +54,7 @@ internal interface _LocaleGenerator {
     val region: Boolean
 }
 
-@Generator("longitude", Float::class)
+@Generator("longitude", String::class)
 internal interface _LongitudeGenerator {
     val fixed: Int
     val min: Float
