@@ -6,9 +6,13 @@ class Shuffler(val seed: Any? = null) {
     private val rng = NaturalGenerator(seed)
 
     inline operator fun <reified T> invoke(array: Array<T>): Array<T> {
-        return invoke(array.toList()).run {
-            Array(array.size) {
-                get(it)
+        return if (array.isEmpty()) {
+            emptyArray()
+        } else {
+            invoke(array.toList()).run {
+                Array(array.size) {
+                    get(it)
+                }
             }
         }
     }
@@ -25,11 +29,15 @@ class Shuffler(val seed: Any? = null) {
         return invoke(string.toList()).joinToString("")
     }
 
-    operator fun <K,V> invoke(map: Map<K,V>): Map<K,V> {
+    operator fun <K, V> invoke(map: Map<K, V>): Map<K, V> {
         return invoke(map.toList()).toMap()
     }
 
     operator fun <T> invoke(iterable: Iterable<T>): List<T> {
+        if (iterable.count() == 0) {
+            return emptyList()
+        }
+
         val out = mutableListOf<T>()
         val indexes = MutableList(iterable.count()) { it }
         var last = iterable.count() - 1
