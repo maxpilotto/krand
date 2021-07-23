@@ -14,20 +14,32 @@ class Picker(val seed: Any? = null) {
     }
 
     fun <T> weighted(items: Iterable<T>, weights: Iterable<Int>, count: Int): List<T> {
-        return List(count) {
-            weighted(items, weights)
+        return if (items.count() == 0) {
+            emptyList()
+        } else {
+            List(count) {
+                weighted(items, weights)
+            }
         }
     }
 
-    fun <K,V> weighted(map: Map<K,V>, weights: Iterable<Int>, count: Int): List<Map.Entry<K,V>> {
-        return List(count) {
-            weighted(map.entries, weights)
+    fun <K, V> weighted(map: Map<K, V>, weights: Iterable<Int>, count: Int): List<Map.Entry<K, V>> {
+        return if (map.isEmpty()) {
+            emptyList()
+        } else {
+            List(count) {
+                weighted(map.entries, weights)
+            }
         }
     }
 
     inline fun <reified T> weighted(weights: Iterable<Int>, count: Int): List<T> {
-        return List(count) {
-            weighted(weights)
+        return if (T::class.java.enumConstants.isEmpty()) {
+            emptyList()
+        } else {
+            List(count) {
+                weighted(weights)
+            }
         }
     }
 
@@ -40,6 +52,8 @@ class Picker(val seed: Any? = null) {
     }
 
     fun <T> weighted(items: Iterable<T>, weights: Iterable<Int>): T {
+        requireNotEmpty(items)
+
         val sum = weights.filter { it > 0 }.sum()
 
         if (items.count() != weights.count()) {
@@ -70,7 +84,7 @@ class Picker(val seed: Any? = null) {
         return items.last()
     }
 
-    fun <K,V> weighted(map: Map<K,V>, weights: Iterable<Int>): Map.Entry<K,V> {
+    fun <K, V> weighted(map: Map<K, V>, weights: Iterable<Int>): Map.Entry<K, V> {
         return weighted(map.entries, weights)
     }
 
@@ -81,38 +95,60 @@ class Picker(val seed: Any? = null) {
     }
 
     fun <T> many(items: Iterable<T>, count: Int): List<T> {
-        return List(count) {
-            one(items)
-        }
-    }
-
-    fun <T> many(items: Array<T>, count: Int): List<T> {
-        return List(count) {
-            one(items)
-        }
-    }
-
-    fun many(string: String, count: Int): String {
-        return buildString {
-            repeat(count) {
-                append(one(string))
+        return if (items.count() == 0) {
+            emptyList()
+        } else {
+            List(count) {
+                one(items)
             }
         }
     }
 
-    fun <K,V> many(map: Map<K,V>, count: Int): List<Map.Entry<K,V>> {
-        return List(count) {
-            one(map)
+    fun <T> many(items: Array<T>, count: Int): List<T> {
+        return if (items.isEmpty()) {
+            emptyList()
+        } else {
+            List(count) {
+                one(items)
+            }
+        }
+    }
+
+    fun many(string: String, count: Int): String {
+        return if (string.isEmpty()) {
+            ""
+        } else {
+            buildString {
+                repeat(count) {
+                    append(one(string))
+                }
+            }
+        }
+    }
+
+    fun <K, V> many(map: Map<K, V>, count: Int): List<Map.Entry<K, V>> {
+        return if (map.isEmpty()) {
+            emptyList()
+        } else {
+            List(count) {
+                one(map)
+            }
         }
     }
 
     inline fun <reified T> many(count: Int): List<T> {
-        return List(count) {
-            one()
+        return if (T::class.java.enumConstants.isEmpty()) {
+            emptyList()
+        } else {
+            List(count) {
+                one()
+            }
         }
     }
 
     fun <T> one(items: Iterable<T>): T {
+        requireNotEmpty(items)
+
         val index = rng
             .max(items.count() - 1)
             .one()
@@ -128,7 +164,7 @@ class Picker(val seed: Any? = null) {
         return one(string.toList()).toString()
     }
 
-    fun <K,V> one(map: Map<K,V>): Map.Entry<K,V> {
+    fun <K, V> one(map: Map<K, V>): Map.Entry<K, V> {
         return one(map.entries)
     }
 
@@ -136,5 +172,9 @@ class Picker(val seed: Any? = null) {
         val values = T::class.java.enumConstants
 
         return one(values)
+    }
+
+    private fun <T> requireNotEmpty(items: Iterable<T>) {
+        require(items.count() > 0) { "No items provided" }
     }
 }
