@@ -1,19 +1,19 @@
 package com.maxpilotto.krand.utils
 
-import com.maxpilotto.krand.generators.NaturalGenerator
+import kotlin.random.Random
 
 class Picker(val seed: Any? = null) {
-    private val rng = NaturalGenerator(seed)
+    private val rng = Random(seed.hashCode())
 
-    fun <T> weighted(items: Array<T>, weights: Iterable<Int>, count: Int): List<T> {
+    fun <T> weighted(items: Array<T>, weights: Iterable<Number>, count: Int): List<T> {
         return weighted(items.toList(), weights, count)
     }
 
-    fun <T> weighted(items: Map<T, Int>, count: Int): List<T> {
+    fun <T> weighted(items: Map<T, Number>, count: Int): List<T> {
         return weighted(items.keys, items.values, count)
     }
 
-    fun <T> weighted(items: Iterable<T>, weights: Iterable<Int>, count: Int): List<T> {
+    fun <T> weighted(items: Iterable<T>, weights: Iterable<Number>, count: Int): List<T> {
         return if (items.count() == 0) {
             emptyList()
         } else {
@@ -23,7 +23,7 @@ class Picker(val seed: Any? = null) {
         }
     }
 
-    fun <K, V> weighted(map: Map<K, V>, weights: Iterable<Int>, count: Int): List<Map.Entry<K, V>> {
+    fun <K, V> weighted(map: Map<K, V>, weights: Iterable<Number>, count: Int): List<Map.Entry<K, V>> {
         return if (map.isEmpty()) {
             emptyList()
         } else {
@@ -33,7 +33,7 @@ class Picker(val seed: Any? = null) {
         }
     }
 
-    inline fun <reified T> weighted(weights: Iterable<Int>, count: Int): List<T> {
+    inline fun <reified T> weighted(weights: Iterable<Number>, count: Int): List<T> {
         return if (T::class.java.enumConstants.isEmpty()) {
             emptyList()
         } else {
@@ -43,34 +43,27 @@ class Picker(val seed: Any? = null) {
         }
     }
 
-    fun <T> weighted(items: Array<T>, weights: Iterable<Int>): T {
+    fun <T> weighted(items: Array<T>, weights: Iterable<Number>): T {
         return weighted(items.toList(), weights)
     }
 
-    fun <T> weighted(items: Map<T, Int>): T {
+    fun <T> weighted(items: Map<T, Number>): T {
         return weighted(items.keys, items.values)
     }
 
-    fun <T> weighted(items: Iterable<T>, weights: Iterable<Int>): T {
+    fun <T> weighted(items: Iterable<T>, weights: Iterable<Number>): T {
+        val w = weights.map { it.toDouble() }
+        val sum = w.filter { it > 0 }.sum()
+
         requireNotEmpty(items)
+        require(items.count() == w.count()) { "Items and weights must have the same size" }
+        require(sum > 0.0) { "The weights sum must be higher than 0" }
 
-        val sum = weights.filter { it > 0 }.sum()
+        val selected = rng.nextDouble(sum)
+        var total = 0.0
 
-        if (items.count() != weights.count()) {
-            throw Exception("Items and weights must have the same size")
-        }
-
-        if (sum == 0) {
-            throw Exception("The sum of all weights must be higher than 0")
-        }
-
-        val selected = rng
-            .max(sum)
-            .one()
-        var total = 0
-
-        for (i in 0 until weights.count()) {
-            val weight = weights.elementAt(i)
+        for (i in 0 until w.count()) {
+            val weight = w.elementAt(i)
 
             total += weight
 
@@ -84,11 +77,11 @@ class Picker(val seed: Any? = null) {
         return items.last()
     }
 
-    fun <K, V> weighted(map: Map<K, V>, weights: Iterable<Int>): Map.Entry<K, V> {
+    fun <K, V> weighted(map: Map<K, V>, weights: Iterable<Number>): Map.Entry<K, V> {
         return weighted(map.entries, weights)
     }
 
-    inline fun <reified T> weighted(weights: Iterable<Int>): T {
+    inline fun <reified T> weighted(weights: Iterable<Number>): T {
         val values = T::class.java.enumConstants
 
         return weighted(values, weights)
@@ -149,9 +142,7 @@ class Picker(val seed: Any? = null) {
     fun <T> one(items: Iterable<T>): T {
         requireNotEmpty(items)
 
-        val index = rng
-            .max(items.count() - 1)
-            .one()
+        val index = rng.nextInt(items.count())
 
         return items.elementAt(index)
     }
